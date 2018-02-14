@@ -1,0 +1,17 @@
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
