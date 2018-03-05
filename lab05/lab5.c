@@ -50,7 +50,10 @@ void stack_destroy(struct stack *s)
     assert(s != NULL);
 
     while (s->top != NULL) {
-        stack_pop(s);
+		struct stack_element *top = s->top;
+
+    	s->top = top->next;
+    	free(top);
     }
 
     free(s);
