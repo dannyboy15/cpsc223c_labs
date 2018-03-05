@@ -41,6 +41,8 @@ struct stack *stack_create(void)
         exit(EXIT_FAILURE);
     }
 
+    s->top = NULL;
+    s->element_count = 0;
 
     return s;
 }
@@ -50,7 +52,7 @@ void stack_destroy(struct stack *s)
     assert(s != NULL);
 
     while (s->top != NULL) {
-		struct stack_element *top = s->top;
+	struct stack_element *top = s->top;
 
     	s->top = top->next;
     	free(top);
