@@ -1,4 +1,9 @@
-// Daniel Bravo
+/* Daniel Bravo
+ * 2018-03-14
+ * Lab 6
+ */
+
+// Lab 6 - Re-write Lab 1 to use the Better String Library
 
 // lab1.cpp - convert this code to C11
 
@@ -13,24 +18,24 @@
  */
 
 #include <stdio.h>
-#include <string.h>
+#include "bstrlib.h"
 
-void bumpInt(int* i, int* amt) {
+void bumpInt(int* i, int* amt)
+{
     if(amt) {
         *i += *amt;
-    }
-    else {
+    } else {
         *i += 1;
     }
 }
 
 
-void bumpStr(char* s, char* c) {
+void bumpStr(bstring s, bstring c)
+{
     if(c) {
-        strcat(s, c);
-    }
-    else {
-        strcat(s, "o");
+        bconcat(s, c);
+    } else {
+        bconcat(s, bfromcstr("o"));
     }
 }
 
@@ -46,14 +51,16 @@ int main()
     bumpInt(&i, &j);
     printf("%d\n", i);
 
-    char s[4] = "foo";
+    bstring s = bfromcstr("foo");
+    //char s[4] = "foo";
 
-    printf("%s\n", s);
+    printf("%s\n", s->data);
     bumpStr(s, NULL);
-    printf("%s\n", s);
-    char a[2] = "x";
+    printf("%s\n", s->data);
+    bstring a = bfromcstr("x");
+    //char a[2] = "x";
     bumpStr(s, a);
-    printf("%s\n", s);
+    printf("%s\n", s->data);
 
     return 0;
 }
