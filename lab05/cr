@@ -17,9 +17,9 @@ cc -std=c11 -g \
     -fno-diagnostics-show-option "$1" -o "$executable" \
 || exit $?
 
-valgrind --leak-check=full "./$executable" || exit $?
 
 shift
-"./$executable" "$@"
+sudo valgrind --leak-check=full "./$executable" "$@" || exit $?
+#"./$executable" "$@"
 
 trap 'rm "$executable"' EXIT
