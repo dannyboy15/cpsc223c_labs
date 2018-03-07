@@ -19,7 +19,7 @@ cc -std=c11 -g \
 
 
 shift
-sudo valgrind --leak-check=full "./$executable" "$@" || exit $?
+valgrind --leak-check=full "./$executable" "$@" || exit $?
 #"./$executable" "$@"
 
 trap 'rm "$executable"' EXIT
