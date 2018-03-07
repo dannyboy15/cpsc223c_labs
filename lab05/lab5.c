@@ -82,14 +82,21 @@ int stack_pop(struct stack *s)
 {
     assert(s != NULL);
 
+    if (s->top == NULL) {
+        return EOF;
+    }
+
     unsigned char c;
 
-    struct stack_element *top;
-    top = s->top;
-    c = top->c;
+    struct stack_element *t;
+    t = s->top;
 
-    s->top = top->next;
-    free(top);
+    c = s->top->c;
+    s->top = s->top->next;
+
+
+    free(t);
+    s->element_count--;
 
     return c;
 }
@@ -104,6 +111,7 @@ int main(int argc, char *argv[])
         for (size_t j = 0; j < strlen(arg); j++) {
             stack_push(s, arg[j]);
         }
+	
         char c;
 
         while ((c = stack_pop(s)) != EOF) {
