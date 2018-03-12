@@ -1,5 +1,9 @@
-// Daniel Bravo
-// 2018-02-14
+/* Daniel Bravo
+ * 2018-03-14
+ * Lab 6
+ */
+
+// Lab 6 - Re-write Lab 3 to use the Better String Library
 
 /*
  * Lab 3 - Create a calculator that will step through cammands
@@ -7,31 +11,33 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <string.h>
+//#include <string.h>
+#include "bstrlib.h"
 
 struct command {
-    char cmd[4];
+    //char cmd[4];
+    bstring cmd;
     unsigned int cmdVal;
     unsigned int lineNum;
 };
 
-void runCommand(uint8_t* val, char* cmd, unsigned int* cmdVal) {
-    if (strcmp(cmd, "set") == 0) {
+void runCommand(uint8_t* val, bstring cmd, unsigned int* cmdVal) {
+    if (bstrcmp(cmd, bfromcstr("set")) == 0) {
         *val = *cmdVal;
     } 
-    else if (strcmp(cmd, "and") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("and")) == 0) {
         *val = *val & *cmdVal;
     }
-    else if (strcmp(cmd, "or") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("or")) == 0) {
         *val = *val | *cmdVal;
     }
-    else if (strcmp(cmd, "xor") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("xor")) == 0) {
         *val = *val ^ *cmdVal;
     }
-    else if (strcmp(cmd, "shr") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("shr")) == 0) {
         *val = *val >> *cmdVal;
     }
-    else if (strcmp(cmd, "shl") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("shl")) == 0) {
         *val = *val << *cmdVal;
     }
     else {
@@ -41,8 +47,8 @@ void runCommand(uint8_t* val, char* cmd, unsigned int* cmdVal) {
     // printf("%s %x => %x\n", cmd, *cmdVal, *val);
 }
 
-void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, char* cmd, uint8_t* val) {
-    if (strcmp(cmd, "step") == 0) {
+void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, bstring cmd, uint8_t* val) {
+    if (bstrcmp(cmd, bfromcstr("step")) == 0) {
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -51,7 +57,7 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
         (*pos)++;
         
     } 
-    else if (strcmp(cmd, "run") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("run")) == 0) {
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -61,22 +67,22 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
             (*pos)++;
         }
     }
-    else if (strcmp(cmd, "print") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("print")) == 0) {
         printf("%x\n", *val);
     }
-    else if (strcmp(cmd, "list") == 0) {
+    else if (bstrcmp(cmd, bfromcstr("list")) == 0) {
         if(*pos != 0 && *pos <= *maxPos) {
-            printf(" %d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd, cmds[*pos - 1].cmdVal);
+            printf(" %d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd->data, cmds[*pos - 1].cmdVal);
         }
         if(*pos <= *maxPos) {
-            printf(" %d %s %x\n", cmds[*pos].lineNum, cmds[*pos].cmd, cmds[*pos].cmdVal);
+            printf(" %d %s %x\n", cmds[*pos].lineNum, cmds[*pos].cmd->data, cmds[*pos].cmdVal);
         }
         if(*pos < *maxPos) {
-            printf(" %d %s %x\n", cmds[*pos + 1].lineNum, cmds[*pos + 1].cmd, cmds[*pos + 1].cmdVal);
+            printf(" %d %s %x\n", cmds[*pos + 1].lineNum, cmds[*pos + 1].cmd->data, cmds[*pos + 1].cmdVal);
         }
         if(*pos > *maxPos) {
-            printf("%d %s %x\n", cmds[*pos - 2].lineNum, cmds[*pos - 2].cmd, cmds[*pos - 2].cmdVal);
-            printf("%d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd, cmds[*pos - 1].cmdVal);
+            printf("%d %s %x\n", cmds[*pos - 2].lineNum, cmds[*pos - 2].cmd->data, cmds[*pos - 2].cmdVal);
+            printf("%d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd->data, cmds[*pos - 1].cmdVal);
         }
     }
     else {
@@ -89,81 +95,76 @@ int main() {
     uint8_t val = 0;
     unsigned int currPos = 0;
     unsigned int maxPos = 12;
-    char cmd[6];
+    bstring cmd;
     struct command cmds[] = {
         {
-            .cmd = "set",
+            .cmd = bfromcstr("set"),
             .cmdVal = 1,
             .lineNum = 1,
         },
         {
-            .cmd = "shl",
+            .cmd = bfromcstr("shl"),
             .cmdVal = 1,
             .lineNum = 2,
         },
         {
-            .cmd = "shl",
+            .cmd = bfromcstr("shl"),
             .cmdVal = 1,
             .lineNum = 3,
         },
         {
-            .cmd = "or",
+            .cmd = bfromcstr("or"),
             .cmdVal = 1,
             .lineNum = 4,
         },
         {
-            .cmd = "or",
+            .cmd = bfromcstr("or"),
             .cmdVal = 2,
             .lineNum = 5,
         },
         {
-            .cmd = "shl",
+            .cmd = bfromcstr("shl"),
             .cmdVal = 2,
             .lineNum = 6,
         },
         {
-            .cmd = "xor",
+            .cmd = bfromcstr("xor"),
             .cmdVal = 10,
             .lineNum = 7,
         },
         {
-            .cmd = "xor",
+            .cmd = bfromcstr("xor"),
             .cmdVal = 10,
             .lineNum = 8,
         },
         {
-            .cmd = "and",
+            .cmd = bfromcstr("and"),
             .cmdVal = 4,
             .lineNum = 9,
         },
         {
-            .cmd = "set",
+            .cmd = bfromcstr("set"),
             .cmdVal = 0x1c,
             .lineNum = 10,
         },
         {
-            .cmd = "and",
+            .cmd = bfromcstr("and"),
             .cmdVal = 3,
             .lineNum = 11,
         },
         {
-            .cmd = "set",
+            .cmd = bfromcstr("set"),
             .cmdVal = 0x1c,
             .lineNum = 12,
         },
         {
-            .cmd = "shr",
+            .cmd = bfromcstr("shr"),
             .cmdVal = 1,
             .lineNum = 13,
         },
     };
 
-    // Test the array
-    // for(int i = 0; i < 13; i++) {
-    //     runCommand(&val, cmds[i].cmd, &(cmds[i].cmdVal));
-    // }
-
-    while(scanf("%s", cmd) != EOF) {
+    while(scanf("%s", cmd->data) != EOF) {
         execCommand(cmds, &currPos, &maxPos, cmd, &val);
     }
 }
