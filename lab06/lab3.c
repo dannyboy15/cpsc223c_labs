@@ -49,6 +49,7 @@ void runCommand(uint8_t* val, bstring cmd, unsigned int* cmdVal) {
 
 void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, bstring cmd, uint8_t* val) {
     if (bstrcmp(cmd, bfromcstr("step")) == 0) {
+	//printf("%d", bstrcmp(cmd, bfromcstr("step")));
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -57,7 +58,7 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
         (*pos)++;
         
     } 
-    else if (bstrcmp(cmd, bfromcstr("run")) == 0) {
+    else if (bstrcmp(cmd, bfromcstr("continue")) == 0) {
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -95,7 +96,6 @@ int main() {
     uint8_t val = 0;
     unsigned int currPos = 0;
     unsigned int maxPos = 12;
-    bstring cmd;
     struct command cmds[] = {
         {
             .cmd = bfromcstr("set"),
@@ -164,7 +164,15 @@ int main() {
         },
     };
 
-    while(scanf("%s", cmd->data) != EOF) {
+    bstring cmd;
+    
+    while((cmd = bgets((bNgetc) fgetc, stdin, '\n'))) {
+        // bgets consumes the new line character ('\n') therefore replace it
+        // with the null character ('\0') to accurately check equality
+        bfindreplace(cmd, bfromcstr("\n"), bfromcstr("\0"), 0);
         execCommand(cmds, &currPos, &maxPos, cmd, &val);
     }
+
+
+
 }
