@@ -9,7 +9,8 @@
 # Do not change this Makefile; submit your updated C code to Dropbox.
 #
 
-CC=gcc
+#CC=gcc
+CC=/usr/local/bin/gcc-7
 INCLUDES=-I$(DEBUGDIR) -I$(BSTRDIR)
 CFLAGS = -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wfloat-equal -Wlogical-op -Wshadow -Wswitch-default \
