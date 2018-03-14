@@ -30,12 +30,12 @@ void bumpInt(int* i, int* amt)
 }
 
 
-void bumpStr(bstring s, bstring c)
+void bumpStr(bstring s, char *c)
 {
     if(c) {
-        bconcat(s, c);
+        bconchar(s, *c);
     } else {
-        bconcat(s, bfromcstr("o"));
+        bconchar(s, 'o');
     }
 }
 
@@ -52,14 +52,11 @@ int main()
     printf("%d\n", i);
 
     bstring s = bfromcstr("foo");
-    //char s[4] = "foo";
 
     printf("%s\n", s->data);
     bumpStr(s, NULL);
     printf("%s\n", s->data);
-    bstring a = bfromcstr("x");
-    //char a[2] = "x";
-    bumpStr(s, a);
+    bumpStr(s, "x");
     printf("%s\n", s->data);
 
     return 0;
