@@ -11,45 +11,38 @@
 
 #include <stdio.h>
 #include <stdint.h>
-//#include <string.h>
 #include "bstrlib.h"
 
 struct command {
-    //char cmd[4];
     bstring cmd;
     unsigned int cmdVal;
     unsigned int lineNum;
 };
 
-void runCommand(uint8_t* val, bstring cmd, unsigned int* cmdVal) {
-    if (bstrcmp(cmd, bfromcstr("set")) == 0) {
+void runCommand(uint8_t* val, bstring cmd, unsigned int* cmdVal)
+{
+    if (biseqcstr(cmd, "set") == 1) {
         *val = *cmdVal;
-    } 
-    else if (bstrcmp(cmd, bfromcstr("and")) == 0) {
+    } else if (biseqcstr(cmd, "and") == 1) {
         *val = *val & *cmdVal;
-    }
-    else if (bstrcmp(cmd, bfromcstr("or")) == 0) {
+    } else if (biseqcstr(cmd, "or") == 1) {
         *val = *val | *cmdVal;
-    }
-    else if (bstrcmp(cmd, bfromcstr("xor")) == 0) {
+    } else if (biseqcstr(cmd, "xor") == 1) {
         *val = *val ^ *cmdVal;
-    }
-    else if (bstrcmp(cmd, bfromcstr("shr")) == 0) {
+    } else if (biseqcstr(cmd, "shr") == 1) {
         *val = *val >> *cmdVal;
-    }
-    else if (bstrcmp(cmd, bfromcstr("shl")) == 0) {
+    } else if (biseqcstr(cmd, "shl") == 1) {
         *val = *val << *cmdVal;
-    }
-    else {
+    } else {
         printf("Invalid command. Please try again.\n");
     }
-
     // printf("%s %x => %x\n", cmd, *cmdVal, *val);
 }
 
-void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, bstring cmd, uint8_t* val) {
-    if (bstrcmp(cmd, bfromcstr("step")) == 0) {
-	//printf("%d", bstrcmp(cmd, bfromcstr("step")));
+void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos,
+    bstring cmd, uint8_t* val)
+{
+    if (biseqcstr(cmd, "step") == 1) {
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -57,8 +50,7 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
         runCommand(val, cmds[*pos].cmd, &cmds[*pos].cmdVal);
         (*pos)++;
         
-    } 
-    else if (bstrcmp(cmd, bfromcstr("continue")) == 0) {
+    } else if (biseqcstr(cmd, "continue") == 1) {
         if (*pos > *maxPos) {
             printf("You have reached the end of the program!\n");
             return;
@@ -67,11 +59,9 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
             runCommand(val, cmds[i].cmd, &cmds[i].cmdVal);
             (*pos)++;
         }
-    }
-    else if (bstrcmp(cmd, bfromcstr("print")) == 0) {
+    } else if (biseqcstr(cmd, "print") == 1) {
         printf("%x\n", *val);
-    }
-    else if (bstrcmp(cmd, bfromcstr("list")) == 0) {
+    } else if (biseqcstr(cmd, "list") == 1) {
         if(*pos != 0 && *pos <= *maxPos) {
             printf(" %d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd->data, cmds[*pos - 1].cmdVal);
         }
@@ -85,17 +75,18 @@ void execCommand(struct command* cmds, unsigned int* pos, unsigned int* maxPos, 
             printf("%d %s %x\n", cmds[*pos - 2].lineNum, cmds[*pos - 2].cmd->data, cmds[*pos - 2].cmdVal);
             printf("%d %s %x\n", cmds[*pos - 1].lineNum, cmds[*pos - 1].cmd->data, cmds[*pos - 1].cmdVal);
         }
-    }
-    else {
+    } else {
         printf("Invalid command. Please try again.\n");
     }
 }
 
 
-int main() {
+int main()
+{
     uint8_t val = 0;
     unsigned int currPos = 0;
     unsigned int maxPos = 12;
+    bstring cmd;
     struct command cmds[] = {
         {
             .cmd = bfromcstr("set"),
@@ -164,8 +155,6 @@ int main() {
         },
     };
 
-    bstring cmd;
-    
     while((cmd = bgets((bNgetc) fgetc, stdin, '\n'))) {
         // bgets consumes the new line character ('\n') therefore replace it
         // with the null character ('\0') to accurately check equality
