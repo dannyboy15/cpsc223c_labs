@@ -13,7 +13,10 @@
 
 int cmd_cmp (const void * a, const void * b)
 {
-    return strcmp(a, ((struct command *)b)->name);
+    const struct command * ca = a;
+    const struct command * cb = b;
+
+    return strcmp(ca->name, cb->name);
 }
 
 
@@ -24,8 +27,11 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    struct command c;
+    strcpy(c.name, argv[1]);
+
     struct command * cmd = (struct command *) bsearch(
-        argv[1],
+        &c,
         commands,
         NUM_COMMANDS,
         sizeof(struct command),

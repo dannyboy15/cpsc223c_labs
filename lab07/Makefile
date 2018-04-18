@@ -13,7 +13,7 @@ CFLAGS= -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 
 PROG = phonebook
 SRCS = main.c commands.c faculty.c
-OBJS = $(SRCS: .c=.o)
+OBJS = $(SRCS:.c=.o)
 
 $(PROG) : $(OBJS)
 	$(CC) $(OBJS) -o $(PROG)

@@ -19,22 +19,34 @@ struct command commands[NUM_COMMANDS] = {
 
 int name_cmp(const void * a, const void * b)
 {
-    return strcmp(((struct professor *)a)->name, ((struct professor *)b)->name);
+    const struct professor * pa = a;
+    const struct professor * pb = b;
+
+    return strcmp(pa->name, pb->name);
 }
 
 int office_cmp(const void * a, const void * b)
 {
-    return strcmp(((struct professor *)a)->office, ((struct professor *)b)->office);
+    const struct professor * pa = a;
+    const struct professor * pb = b;
+
+    return strcmp(pa->office, pb->office);
 }
 
 int phone_cmp(const void * a, const void * b)
 {
-    return strcmp(((struct professor *)a)->phone, ((struct professor *)b)->phone);
+    const struct professor * pa = a;
+    const struct professor * pb = b;
+
+    return strcmp(pa->phone, pb->phone);
 }
 
 int email_cmp(const void * a, const void * b)
 {
-    return strcmp(((struct professor *)a)->email, ((struct professor *)b)->email);
+    const struct professor * pa = a;
+    const struct professor * pb = b;
+
+    return strcmp(pa->email, pb->email);
 }
 
 int find_by_name(char *name)
