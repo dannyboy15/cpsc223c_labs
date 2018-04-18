@@ -3,8 +3,12 @@
 # CPSC 223C-01/02
 # Lab 7
 
+# Use this for Linux complier
 CC=gcc
+
+# Use this for Mac compiler
 #CC=/usr/local/bin/gcc-7
+
 #INCLUDES=-!$(DEBUGDIR) -I$(BSTRDIR)
 CFLAGS= -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wfloat-equal -Wlogical-op -Wshadow -Wswitch-default \
