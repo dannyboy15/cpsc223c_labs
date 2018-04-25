@@ -31,8 +31,8 @@ PROGS = $(MKPHONEPROG) $(LSPHONEPROG) $(PHONEPROG)
 SRCS = $(MKPHONESRCS) $(LSPHONESRCS) $(PHONESRCS)
 OBJS = $(SRCS:.c=.o)
 
-$(PROG) : $(OBJS)
-	$(CC) $(OBJS) -o $(PROG)
+$(PROGS) : $(OBJS)
+	$(CC) $(OBJS) -o $(PROGS)
 
 all: $(PROGS)
 
@@ -57,7 +57,7 @@ faculty.o : faculty.c
 
 
 clean :
-	rm -f core $(PROG) $(OBJS)
+	rm -f core $(PROGS) $(OBJS)
 
 clean_all:
-	rm -f core $(PROG) $(OBJS) *.bin
+	rm -f core $(PROGS) $(OBJS) *.bin
