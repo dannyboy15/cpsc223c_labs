@@ -15,14 +15,41 @@ CFLAGS= -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wbad-function-cast -Wcast-qual -Waggregate-return \
 	-fno-diagnostics-show-option $(INCLUDES)
 
-PROG = phonebook
-SRCS = main.c commands.c faculty.c
+MKPHONEPROG = mkphone
+MKPHONESRCS = mkphone.c commands.c faculty.c
+MKPHONEOBJS = $(MKPHONESRCS:.c=.o)
+
+LSPHONEPROG = lsphone
+LSPHONESRCS = lsphone.c commands.c faculty.c
+LSPHONEOBJS = $(LSPHONESRCS:.c=.o)
+
+PHONEPROG = phone
+PHONESRCS = phone.c commands.c faculty.c
+PHONEOBJS = $(PHONESRCS:.c=.o)
+
+PROGS = $(MKPHONEPROG) $(LSPHONEPROG) $(PHONEPROG)
+SRCS = $(MKPHONESRCS) $(LSPHONESRCS) $(PHONESRCS)
 OBJS = $(SRCS:.c=.o)
 
 $(PROG) : $(OBJS)
 	$(CC) $(OBJS) -o $(PROG)
 
-main.o : main.c
+all: $(PROGS)
+
+mkphone: $(MKPHONEOBJS)
+	$(CC) $(MKPHONEOBJS) -o $(MKPHONEPROG)
+
+lsphone: $(LSPHONEOBJS)
+	$(CC) $(LSPHONEOBJS) -o $(LSPHONEPROG)
+
+phone: $(PHONEOBJS)
+	$(CC) $(PHONEOBJS) -o $(PHONEPROG)
+
+mkphone.o: mkphone.c
+
+lsphone.o: lsphone.c
+
+phone.o: phone.c
 
 commands.o : commands.c
 
@@ -31,3 +58,6 @@ faculty.o : faculty.c
 
 clean :
 	rm -f core $(PROG) $(OBJS)
+
+clean_all:
+	rm -f core $(PROG) $(OBJS) *.bin
