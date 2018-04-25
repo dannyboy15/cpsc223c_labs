@@ -1,3 +1,9 @@
+/* Daniel Bravo
+ * 2018-04-23
+ * CPSC 223C-01/02
+ * Lab 9
+ */
+
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
@@ -11,6 +17,11 @@ struct command {
 };
 
 extern struct command commands[NUM_COMMANDS];
+
+int name_cmp(const void * a, const void * b);
+int office_cmp(const void * a, const void * b);
+int phone_cmp(const void * a, const void * b);
+int email_cmp(const void * a, const void * b);
 
 int find_by_name(char *);
 int find_by_office(char *);
