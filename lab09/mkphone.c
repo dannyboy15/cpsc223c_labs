@@ -1,13 +1,7 @@
 /* Daniel Bravo
- * 2018-04-23
+ * 2018-04-25
  * CPSC 223C-01/02
  * Lab 9
- */
-
- /* Daniel Bravo
- * 2018-04-04
- * CPSC 223C-01/02
- * Lab 7
  */
 
 #include <stdio.h>
@@ -64,21 +58,7 @@ int make_bin(char c)
     qsort(faculty, NUM_FACULTY, sizeof(struct professor), cmp_func);
 
     // Write it out
-    for(int i = 0; i < NUM_FACULTY; i++) {
-
-        char s[MAX_RECORD_SIZE];
-        sprintf(s, "%s\n%s\n%s\n%s",
-            faculty[i].name,
-            faculty[i].office,
-            faculty[i].phone,
-            faculty[i].email);
-        // printf("%s\n", s);
-
-        if(i != NUM_FACULTY - 1) {
-            sprintf(s, "%s\n\n", s);
-        }
-        write(fp, s, strlen(s));
-    }
+    write(fp, faculty, sizeof(faculty));
 
     // Close the file
     close(fp);
