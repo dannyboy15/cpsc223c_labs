@@ -1,3 +1,9 @@
+/* Daniel Bravo
+ * 2018-04-25
+ * CPSC 223C-01/02
+ * Lab 9
+ */
+
 #ifndef FACULTY_H
 #define FACULTY_H
 
@@ -14,6 +20,8 @@ struct professor {
     char phone[FACULTY_PHONE_LEN];
     char email[FACULTY_EMAIL_LEN];
 };
+
+void print_professor(struct professor *p);
 
 extern struct professor faculty[NUM_FACULTY];
 

@@ -1,4 +1,15 @@
+/* Daniel Bravo
+ * 2018-04-25
+ * CPSC 223C-01/02
+ * Lab 9
+ */
+
+#include <stdio.h>
 #include "faculty.h"
+
+void print_professor(struct professor *p) {
+    printf("%s\n%s\n%s\n%s\n", p->name, p->office, p->phone, p->email);
+}
 
 struct professor faculty[NUM_FACULTY] = {
     { "Shafae, Michael",          "CS-540", "(657) 278-3291", "mshafae@fullerton.edu" },
