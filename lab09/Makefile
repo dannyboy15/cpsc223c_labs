@@ -1,5 +1,5 @@
 # Daniel Bravo
-# 2018-04-24
+# 2018-04-25
 # CPSC 223C-01/02
 # Lab 9
 
@@ -31,9 +31,6 @@ PROGS = $(MKPHONEPROG) $(LSPHONEPROG) $(PHONEPROG)
 SRCS = $(MKPHONESRCS) $(LSPHONESRCS) $(PHONESRCS)
 OBJS = $(SRCS:.c=.o)
 
-$(PROGS) : $(OBJS)
-	$(CC) $(OBJS) -o $(PROGS)
-
 all: $(PROGS)
 
 mkphone: $(MKPHONEOBJS)
@@ -55,9 +52,8 @@ commands.o : commands.c
 
 faculty.o : faculty.c
 
-
 clean :
 	rm -f core $(PROGS) $(OBJS)
 
-clean_all:
-	rm -f core $(PROGS) $(OBJS) *.bin
+cleanall: clean
+	rm -f *.bin
