@@ -21,7 +21,7 @@ struct professor {
     char email[FACULTY_EMAIL_LEN];
 };
 
-void print_professor(struct professor *p);
+void print_professor(struct professor *);
 
 extern struct professor faculty[NUM_FACULTY];
 
