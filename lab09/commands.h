@@ -1,5 +1,5 @@
 /* Daniel Bravo
- * 2018-04-23
+ * 2018-04-25
  * CPSC 223C-01/02
  * Lab 9
  */
@@ -8,24 +8,29 @@
 #define COMMANDS_H
 
 #define NUM_COMMANDS 4
-
 #define COMMAND_NAME_LEN 7
+
+#include "faculty.h"
 
 struct command {
     char name[COMMAND_NAME_LEN];
-    int (*function)(char *);
+    int (*function)(struct professor *, char *);
 };
 
 extern struct command commands[NUM_COMMANDS];
 
-int name_cmp(const void * a, const void * b);
-int office_cmp(const void * a, const void * b);
-int phone_cmp(const void * a, const void * b);
-int email_cmp(const void * a, const void * b);
+// Compare functions
+int cmd_cmp (const void *, const void *);
+int name_cmp(const void *, const void *);
+int office_cmp(const void *, const void *);
+int phone_cmp(const void *, const void *);
+int email_cmp(const void *, const void *);
 
-int find_by_name(char *);
-int find_by_office(char *);
-int find_by_phone(char *);
-int find_by_email(char *);
+// Search functions
+int find_by_name(struct professor *, char *);
+int find_by_office(struct professor *, char *);
+int find_by_phone(struct professor *, char *);
+int find_by_email(struct professor *, char *);
+int find_faculty(struct professor *, char *, char *);
 
 #endif
