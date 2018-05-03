@@ -28,4 +28,4 @@ $(PROG) : $(OBJS)
 main.o : main.c
 
 clean :
-	rm -f core $(PROGS) $(OBJS)
+	rm -f core $(PROG) $(OBJS)
