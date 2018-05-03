@@ -9,36 +9,59 @@
 #include <glib/gprintf.h>
 #include <string.h>
 
+unsigned long MAX_STR_LEN;
+
 gint tree_cmp_func(gconstpointer a, gconstpointer b)
 {
-  return strcmp(a,b);
+  return strcmp(a, b);
 }
 
 GTree * count_word_freq(gchar **strs)
 {
-  GTree *counts = g_tree_new(tree_cmp_func);
+  GTree *cnts = g_tree_new(tree_cmp_func);
 
   int i = 0;
   char *key = strs[i];
   while(key != NULL) {
-    gpointer tmp_val = g_tree_lookup(counts, key);
+    // Get the max length of the words for formatting
+    MAX_STR_LEN = MAX_STR_LEN > strlen(key) ? MAX_STR_LEN : strlen(key);
+
+    gpointer tmp_val = g_tree_lookup(cnts, key);
     if(tmp_val == NULL) {
-      int val = 1;
-      g_tree_insert(counts, key, &val);
+      gpointer val = GINT_TO_POINTER(1);
+      g_tree_insert(cnts, key, val);
+      // g_printf("%s's current value is %d\n", key, GPOINTER_TO_INT(val));
     } else {
-      int val = GPOINTER_TO_INT(tmp_val) + 1;
-      g_tree_replace(counts, key, &val);
+      gpointer val = GINT_TO_POINTER(GPOINTER_TO_INT(tmp_val) + 1);
+      g_tree_insert(cnts, key, val);
+      // g_printf("%s's current value is %d\n", key, GPOINTER_TO_INT(val));
     }
     key = strs[++i];
   }
 
-  return counts;
+  g_tree_remove(cnts, "");
+
+  return cnts;
 }
+
+gboolean print_node (gpointer key, gpointer value, gpointer data)
+{
+  // int val = ;
+  g_printf("%*s %d\n", 0 - ((int)MAX_STR_LEN + 2), (char *)key, GPOINTER_TO_INT(value));
+  (void) data;
+
+  return FALSE;
+}
+
+// void print_word_freq(GTree *counts)
+// {
+//   g_tree_foreach(counts, print_node, NULL);
+// }
 
 int main(int argc, char *argv[])
 {
-  GIOChannel *file;
-  gchar *contents;
+  GIOChannel *file = NULL;
+  gchar *contents = NULL;
   gsize len;
   GError *e = NULL;
 
@@ -54,18 +77,23 @@ int main(int argc, char *argv[])
   // Read the contents of the file
   g_io_channel_read_to_end(file, &contents, &len, &e);
 
+  // Close the file
+  g_io_channel_shutdown(file, TRUE, &e);
+
   // Convert to lowercase
   gchar *cont_lower = g_utf8_strdown(contents, len);
 
   // Remove punctuation
-  gchar **words = g_strsplit_set(cont_lower, "!\"#$%%&\'()*+,-./:;<=>?@[\\]^_`{|}~",-1);
+  gchar **words = g_strsplit_set(cont_lower, "!\"#$%%&\'()*+,-./:;<=>?@[\\]^_`{|}~ \n",-1);
 
   // Count word frequency
   GTree *counts = count_word_freq(words);
 
-  (void) counts;
+  // print_word_freq(counts);
+  g_tree_foreach(counts, print_node, NULL);
 
-  g_printf("%s\n%lu\n", words[0], len);
+  g_tree_destroy(counts);
+
 
   return 1;
 
