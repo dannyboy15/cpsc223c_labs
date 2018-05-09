@@ -42,4 +42,4 @@ electriccar.o: electriccar.c car.h electriccar.h
 	$(CC) $(CFLAGS) -c electriccar.c -o electriccar.o
 
 clean:
-	rm -f core main.o automobile.o car.o truck.o suv.o dealership
+	rm -f core main.o automobile.o car.o truck.o suv.o sportscar.o electriccar.o dealership
