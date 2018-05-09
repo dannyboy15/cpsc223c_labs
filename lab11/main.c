@@ -27,6 +27,12 @@ void list_inventory(Automobile *inventory[], int size)
     }
 }
 
+void testDrive(Automobile *automobile, int length)
+{
+    printf("  > Test driving the %s for %d miles\n\n", automobile->make, length);
+    automobile->mileage += length;
+}
+
 int main(void)
 {
     Car c = {
@@ -72,7 +78,7 @@ int main(void)
         .parent.parent.mileage  = 5,
         .parent.parent.price    = 101500.0,
         .parent.doors           = 4,
-        .maximumRange    = 335,
+        .maximumRange           = 335,
         .parent.parent.vptr     = &ElectricCar_vtable,
     };
 
@@ -83,6 +89,16 @@ int main(void)
         (Automobile *) &sc,
         (Automobile *) &ec
     };
+
+    list_inventory(stock, LEN(stock));
+
+    // Test drive the cars
+    printf("Test driving the cars...\n\n");
+    testDrive((Automobile *) &c, 45);
+    testDrive((Automobile *) &t, 40);
+    testDrive((Automobile *) &s, 13);
+    testDrive((Automobile *) &sc, 49);
+    testDrive((Automobile *) &ec, 34);
 
     list_inventory(stock, LEN(stock));
 
