@@ -4,10 +4,10 @@
 # Lab 11
 
 # Use this for Linux complier
-# CC=gcc
+CC=gcc
 
 # Use this for Mac compiler
-CC=/usr/local/bin/gcc-7
+# CC=/usr/local/bin/gcc-7
 
 CFLAGS = -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wfloat-equal -Wlogical-op -Wshadow -Wswitch-default \

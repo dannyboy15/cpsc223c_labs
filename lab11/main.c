@@ -29,7 +29,7 @@ void list_inventory(Automobile *inventory[], int size)
 
 void testDrive(Automobile *automobile, int length)
 {
-    printf("  > Test driving the %s for %d miles\n\n", automobile->make, length);
+    // printf("  > Test driving the %s for %d miles\n\n", automobile->make, length);
     automobile->mileage += length;
 }
 
@@ -93,7 +93,7 @@ int main(void)
     list_inventory(stock, LEN(stock));
 
     // Test drive the cars
-    printf("Test driving the cars...\n\n");
+    // printf("Test driving the cars...\n\n");
     testDrive((Automobile *) &c, 45);
     testDrive((Automobile *) &t, 40);
     testDrive((Automobile *) &s, 13);
