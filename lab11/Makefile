@@ -1,4 +1,14 @@
-CC=gcc
+# Daniel Bravo
+# 2018-05-09
+# CPSC 223C-01/02
+# Lab 11
+
+# Use this for Linux complier
+# CC=gcc
+
+# Use this for Mac compiler
+CC=/usr/local/bin/gcc-7
+
 CFLAGS = -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wfloat-equal -Wlogical-op -Wshadow -Wswitch-default \
 	-Wbad-function-cast -Wcast-qual -Waggregate-return \
@@ -7,8 +17,8 @@ CFLAGS = -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 test: dealership
 	./dealership
 
-dealership: main.o automobile.o car.o truck.o suv.o
-	$(CC) main.o automobile.o car.o truck.o suv.o -o dealership
+dealership: main.o automobile.o car.o truck.o suv.o sportscar.o electriccar.o
+	$(CC) main.o automobile.o car.o truck.o suv.o sportscar.o electriccar.o -o dealership
 
 main.o: main.c automobile.h car.h
 	$(CC) $(CFLAGS) -c main.c -o main.o
@@ -25,6 +35,11 @@ truck.o: truck.c automobile.h truck.h
 suv.o: suv.c automobile.h suv.h
 	$(CC) $(CFLAGS) -c suv.c -o suv.o
 
+sportscar.o: sportscar.c car.h sportscar.h
+	$(CC) $(CFLAGS) -c sportscar.c -o sportscar.o
+
+electriccar.o: electriccar.c car.h electriccar.h
+	$(CC) $(CFLAGS) -c electriccar.c -o electriccar.o
+
 clean:
 	rm -f core main.o automobile.o car.o truck.o suv.o dealership
-
