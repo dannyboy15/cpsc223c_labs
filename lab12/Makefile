@@ -9,8 +9,8 @@ CC=gcc
 # Use this for Mac compiler
 # CC=/usr/local/bin/gcc-7
 
-INCLUDES= `pkg-config --cflags glib-obj2.0`
-LIBS = `pkg-config --libs glib-obj2.0`
+INCLUDES= `pkg-config --cflags gobject-2.0`
+LIBS = `pkg-config --libs gobject-2.0`
 
 CFLAGS = -g -std=c11 -Wall -Wextra -Wpedantic -Werror \
 	-Wfloat-equal -Wlogical-op -Wshadow -Wswitch-default \
