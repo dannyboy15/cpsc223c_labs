@@ -34,4 +34,4 @@ person.o: person.c
 student.o: student.c
 
 clean:
-	rm -f core $(PROGS) $(OBJS)
+	rm -f core $(PROG) $(OBJS)
